@@ -316,15 +316,13 @@
       width:100%;
       max-width:460px;
       margin:0 auto;
-      padding:23px 20px;
+      padding:20px 18px;
       border-radius:22px;
       text-align:left;
-      background:
-        linear-gradient(rgba(64,42,24,.88),rgba(43,29,18,.95)),
-        url("assets/roca.png") center/cover;
-      border:2px solid rgba(241,211,159,.55);
+      background:rgba(35,24,15,.55);
+      border:1px solid rgba(241,211,159,.42);
       box-shadow:var(--shadow);
-      backdrop-filter:blur(2px);
+      backdrop-filter:blur(1.5px);
     }
 
     .gift-card h2{
@@ -362,6 +360,46 @@
 
     .gift-list li{
       margin:7px 0;
+    }
+
+    .farewell-section{
+      position:relative;
+      padding:34px 22px 44px;
+      text-align:center;
+      background:
+        linear-gradient(rgba(29,43,21,.88),rgba(22,34,17,.96)),
+        url("assets/roca.png") center/cover;
+      border-top:1px solid rgba(241,211,159,.18);
+    }
+
+    .farewell-card{
+      max-width:440px;
+      margin:0 auto;
+      padding:22px 18px;
+      border-radius:20px;
+      background:rgba(43,30,18,.42);
+      border:1px solid rgba(241,211,159,.30);
+    }
+
+    .farewell-card h2{
+      margin:0 0 12px;
+      font-family:"Lilita One",cursive;
+      font-size:clamp(27px,7vw,38px);
+      line-height:1.05;
+      color:#f5dfb0;
+      text-shadow:0 3px 5px rgba(0,0,0,.65);
+    }
+
+    .farewell-card p{
+      margin:0;
+      font-size:clamp(16px,4.3vw,19px);
+      line-height:1.5;
+      color:#fff8e7;
+      text-shadow:0 2px 4px rgba(0,0,0,.55);
+    }
+
+    .farewell-card p + p{
+      margin-top:12px;
     }
 
     .footer-space{
@@ -490,6 +528,15 @@
           <li>Zapatos talla 19: formal, tenis, botita, chanclas, etc.</li>
           <li>Mochila, de preferencia de rueditas.</li>
         </ul>
+      </div>
+    </section>
+
+    <section class="farewell-section" aria-label="Mensaje final">
+      <div class="farewell-card">
+        <h2>¡GRACIAS POR SER PARTE DE ESTA AVENTURA! 🦖🌿</h2>
+        <p>Esperamos compartir contigo un día muy especial y crear juntos recuerdos inolvidables.</p>
+        <p>Si tienes alguna duda sobre el evento, puedes escribirnos directamente por WhatsApp.</p>
+        <p><strong>¡Nos vemos en la expedición!</strong></p>
       </div>
     </section>
 
