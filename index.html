@@ -252,93 +252,20 @@
       .hero{border-radius:28px 28px 0 0}
     }
 
-    /* Formulario de confirmación */
-    .modal{
-      position:fixed;
-      inset:0;
-      z-index:20;
-      display:none;
-      align-items:center;
-      justify-content:center;
-      padding:18px;
-      background:rgba(0,0,0,.72);
-    }
+    .modal{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(0,0,0,.76)}
     .modal.open{display:flex}
-    .modal-card{
-      width:min(100%,460px);
-      max-height:92vh;
-      overflow:auto;
-      padding:24px 20px;
-      border-radius:22px;
-      background:
-        linear-gradient(rgba(72,43,22,.96),rgba(54,32,17,.98)),
-        url("assets/roca.png") center/cover;
-      border:2px solid rgba(241,211,159,.55);
-      box-shadow:var(--shadow);
-      text-align:left;
-    }
-    .modal-card h2{
-      margin:0 0 7px;
-      font-family:"Lilita One",cursive;
-      font-size:32px;
-      color:#f5dfb0;
-      text-align:center;
-    }
-    .modal-card p{
-      margin:0 0 18px;
-      color:#fff3d1;
-      text-align:center;
-      line-height:1.35;
-    }
-    .form-label{
-      display:block;
-      margin:13px 0 6px;
-      color:#fff3d1;
-      font-weight:900;
-    }
-    .form-input,.form-select{
-      width:100%;
-      min-height:48px;
-      padding:11px 13px;
-      border-radius:12px;
-      border:2px solid rgba(241,211,159,.45);
-      background:#fff8e8;
-      color:#382314;
-      font:700 16px "Nunito",sans-serif;
-      outline:none;
-    }
-    .form-input:focus,.form-select:focus{
-      border-color:#c9d69a;
-    }
-    .form-row{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:12px;
-    }
-    .form-actions{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:10px;
-      margin-top:20px;
-    }
-    .form-message{
-      min-height:22px;
-      margin-top:12px;
-      text-align:center;
-      font-size:14px;
-      color:#fff3d1;
-    }
-    .success-message{
-      text-align:center;
-      padding:10px 2px 2px;
-      color:#fff3d1;
-      font-size:18px;
-      line-height:1.45;
-    }
+    .modal-card{width:min(100%,460px);max-height:92vh;overflow:auto;padding:24px 20px;border-radius:22px;background:linear-gradient(rgba(72,43,22,.97),rgba(54,32,17,.99)),url("assets/roca.png") center/cover;border:2px solid rgba(241,211,159,.55);box-shadow:var(--shadow);text-align:center}
+    .modal-card h2{margin:0 0 8px;font-family:"Lilita One",cursive;font-size:32px;color:#f5dfb0}
+    .modal-card p{margin:0 0 18px;color:#fff3d1;line-height:1.4}
+    .passes-label{display:block;margin:8px 0 9px;font-family:"Lilita One",cursive;font-size:24px;color:#f5dfb0}
+    .passes-select{width:100%;min-height:56px;padding:10px 14px;border-radius:14px;border:2px solid rgba(241,211,159,.55);background:#fff8e8;color:#382314;font:900 19px "Nunito",sans-serif;text-align:center}
+    .modal-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
+    .form-message{min-height:22px;margin-top:12px;color:#fff3d1;font-size:14px;line-height:1.4}
+    .success-message{color:#fff3d1;font-size:19px;line-height:1.5}
+    .guest-count{margin:12px auto 0;font-size:15px;color:#eadfca;opacity:.95}
 
   </style>
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
 <body>
@@ -356,7 +283,7 @@
 
       <div class="family-card">
         <p class="family-label">Invitación especial para</p>
-        <h2 class="family-name">FAMILIA PÉREZ</h2>
+        <h2 id="familyName" class="family-name">FAMILIA PÉREZ</h2>
       </div>
 
       <div class="intro">
@@ -368,51 +295,22 @@
         <button id="confirmButton" class="stone-button confirm" type="button">CONFIRMAR ASISTENCIA</button>
         <button id="declineButton" class="stone-button decline" type="button">NO PODREMOS ACOMPAÑARLOS</button>
       </div>
+      <p id="guestCount" class="guest-count"></p>
+      <p class="hint">Tu invitación es personal. Selecciona la cantidad de pases que asistirán.</p>
 
-      <p class="hint">
-        Registra aquí su respuesta. La información se guardará de forma segura para organizar la expedición.
-      </p>
-
-
-      <!-- Modal de confirmación -->
       <div id="confirmationModal" class="modal" aria-hidden="true">
         <div class="modal-card">
-          <h2 id="modalTitle">Confirmar asistencia</h2>
-          <p id="modalIntro">Cuéntanos quiénes nos acompañarán en esta aventura.</p>
-
+          <h2>Confirmar asistencia</h2>
+          <p>Selecciona cuántas personas de tu invitación asistirán.</p>
           <form id="confirmationForm">
-            <label class="form-label" for="familia">Familia</label>
-            <input class="form-input" id="familia" name="familia" type="text"
-                   value="Familia Pérez" maxlength="100" required>
-
-            <div id="attendanceFields">
-              <div class="form-row">
-                <div>
-                  <label class="form-label" for="adultos">Adultos</label>
-                  <input class="form-input" id="adultos" name="adultos" type="number"
-                         min="0" max="20" value="1" required>
-                </div>
-                <div>
-                  <label class="form-label" for="ninos">Niños</label>
-                  <input class="form-input" id="ninos" name="ninos" type="number"
-                         min="0" max="20" value="0" required>
-                </div>
-              </div>
-            </div>
-
-            <label class="form-label" for="observaciones">Observaciones (opcional)</label>
-            <textarea class="form-input" id="observaciones" name="observaciones"
-                      rows="3" maxlength="500"
-                      placeholder="Algún comentario que debamos saber..."></textarea>
-
-            <div class="form-actions">
+            <label class="passes-label" for="passesSelect">Asistirán:</label>
+            <select id="passesSelect" class="passes-select" required></select>
+            <div class="modal-actions">
               <button id="cancelButton" class="stone-button decline" type="button">CANCELAR</button>
-              <button id="submitButton" class="stone-button confirm" type="submit">GUARDAR</button>
+              <button id="submitButton" class="stone-button confirm" type="submit">CONFIRMAR</button>
             </div>
-
             <div id="formMessage" class="form-message" role="status" aria-live="polite"></div>
           </form>
-
           <div id="successMessage" class="success-message" hidden></div>
         </div>
       </div>
@@ -422,147 +320,89 @@
       <div class="footer-space"></div>
     </section>
   </main>
-
   <script>
     const SUPABASE_URL = "https://jygvmmaqbgrinbvbbesz.supabase.co";
-    const SUPABASE_PUBLISHABLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp5Z3ZtbWFxYmdyaW5idmJiZXN6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY2NjExMTQsImV4cCI6MjEwMjIzNzExNH0.4dTeTd_thwtkZw_gQvTqkZBWw9UnEpEeQLRH2WSH5Ds";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp5Z3ZtbWF4YmdyaW5idmJiZXN6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY2NjExMTQsImV4cCI6MjEwMjIzNzExNH0.4dTeTd_thwtkZw_gQvTqkZBWw9UnEpEeQLRH2WSH5Ds";
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    const supabaseClient = window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_PUBLISHABLE_KEY
-    );
-
+    const familyName = document.getElementById("familyName");
+    const guestCount = document.getElementById("guestCount");
     const modal = document.getElementById("confirmationModal");
-    const modalTitle = document.getElementById("modalTitle");
-    const modalIntro = document.getElementById("modalIntro");
     const form = document.getElementById("confirmationForm");
-    const attendanceFields = document.getElementById("attendanceFields");
-    const adultos = document.getElementById("adultos");
-    const ninos = document.getElementById("ninos");
-    const observaciones = document.getElementById("observaciones");
+    const passesSelect = document.getElementById("passesSelect");
     const formMessage = document.getElementById("formMessage");
     const submitButton = document.getElementById("submitButton");
     const successMessage = document.getElementById("successMessage");
+    let invitacion = null;
 
-    let selectedStatus = "confirmado";
+    function token() { return new URLSearchParams(location.search).get("i"); }
+    function closeModal() { modal.classList.remove("open"); modal.setAttribute("aria-hidden","true"); }
 
-    function openModal(status) {
-      selectedStatus = status;
-      modal.classList.add("open");
-      modal.setAttribute("aria-hidden", "false");
-      form.hidden = false;
-      successMessage.hidden = true;
-      formMessage.textContent = "";
-
-      if (status === "confirmado") {
-        modalTitle.textContent = "Confirmar asistencia";
-        modalIntro.textContent = "Cuéntanos quiénes nos acompañarán en esta aventura.";
-        attendanceFields.style.display = "block";
-        adultos.required = true;
-        ninos.required = true;
-        submitButton.textContent = "GUARDAR CONFIRMACIÓN";
-      } else {
-        modalTitle.textContent = "No podremos acompañarlos";
-        modalIntro.textContent = "Déjanos el nombre de la familia para registrar su respuesta.";
-        attendanceFields.style.display = "none";
-        adultos.required = false;
-        ninos.required = false;
-        adultos.value = "0";
-        ninos.value = "0";
-        submitButton.textContent = "REGISTRAR";
+    function fillPassOptions(max) {
+      passesSelect.innerHTML = "";
+      for (let i=1; i<=max; i++) {
+        const o=document.createElement("option");
+        o.value=i; o.textContent=`${i} de ${max}`;
+        passesSelect.appendChild(o);
       }
     }
 
-    function closeModal() {
-      modal.classList.remove("open");
-      modal.setAttribute("aria-hidden", "true");
+    async function loadInvitation() {
+      const t=token();
+      if(!t){
+        familyName.textContent="FAMILIA INVITADA";
+        guestCount.textContent="Esta invitación necesita un enlace personalizado.";
+        confirmButton.disabled=true; declineButton.disabled=true; return;
+      }
+      const {data,error}=await supabaseClient.from("invitaciones")
+        .select("id,familia,pases_asignados,activo").eq("token",t).eq("activo",true).single();
+
+      if(error || !data){
+        console.error("Invitación no encontrada:",error);
+        familyName.textContent="INVITACIÓN NO ENCONTRADA";
+        guestCount.textContent="Revisa que el enlace personalizado sea correcto.";
+        confirmButton.disabled=true; declineButton.disabled=true; return;
+      }
+      invitacion=data;
+      familyName.textContent=data.familia.toUpperCase();
+      guestCount.textContent=`Esta invitación incluye ${data.pases_asignados} ${data.pases_asignados===1?"pase":"pases"}.`;
+      fillPassOptions(data.pases_asignados);
     }
 
-    document.getElementById("confirmButton").addEventListener("click", () => {
-      adultos.value = "1";
-      ninos.value = "0";
-      observaciones.value = "";
-      openModal("confirmado");
+    confirmButton.addEventListener("click",()=>{ if(!invitacion)return; form.hidden=false; successMessage.hidden=true; formMessage.textContent=""; modal.classList.add("open"); modal.setAttribute("aria-hidden","false"); });
+    cancelButton.addEventListener("click",closeModal);
+    modal.addEventListener("click",e=>{if(e.target===modal)closeModal();});
+
+    declineButton.addEventListener("click",async()=>{
+      if(!invitacion)return;
+      declineButton.disabled=true;
+      const {error}=await supabaseClient.from("confirmaciones").insert({
+        invitacion_id:invitacion.id,pases_confirmados:0,estado:"no_asistira"
+      });
+      declineButton.disabled=false;
+      if(error){ console.error(error); formMessage.textContent="No pudimos registrar la respuesta."; form.hidden=false; successMessage.hidden=true; modal.classList.add("open"); return; }
+      form.hidden=true; successMessage.hidden=false; successMessage.innerHTML="Gracias por avisarnos.<br><br>Hemos registrado que no podrán acompañarnos.";
+      modal.classList.add("open"); modal.setAttribute("aria-hidden","false");
+      setTimeout(closeModal,4000);
     });
 
-    document.getElementById("declineButton").addEventListener("click", () => {
-      observaciones.value = "";
-      openModal("no_asistira");
+    form.addEventListener("submit",async e=>{
+      e.preventDefault();
+      const pases=Number(passesSelect.value);
+      if(!Number.isInteger(pases)||pases<1||pases>invitacion.pases_asignados){formMessage.textContent="Selecciona una cantidad válida de pases.";return;}
+      submitButton.disabled=true; submitButton.style.opacity=".65"; formMessage.textContent="";
+      const {error}=await supabaseClient.from("confirmaciones").insert({
+        invitacion_id:invitacion.id,pases_confirmados:pases,estado:"confirmado"
+      });
+      if(error){
+        console.error(error); formMessage.textContent="No pudimos guardar la confirmación. Inténtalo nuevamente.";
+        submitButton.disabled=false; submitButton.style.opacity=""; return;
+      }
+      form.hidden=true; successMessage.hidden=false;
+      successMessage.innerHTML=`🦖 ¡Confirmación registrada!<br><br>Asistirán: <strong>${pases} de ${invitacion.pases_asignados}</strong>.<br><br>¡Nos encantará contar con ustedes en la expedición!`;
+      setTimeout(closeModal,4000);
     });
-
-    document.getElementById("cancelButton").addEventListener("click", closeModal);
-
-    modal.addEventListener("click", (event) => {
-      if (event.target === modal) closeModal();
-    });
-
-    form.addEventListener("submit", async (event) => {
-      event.preventDefault();
-
-      formMessage.textContent = "";
-      submitButton.disabled = true;
-      submitButton.style.opacity = ".65";
-
-      const familia = document.getElementById("familia").value.trim();
-      const adultosValue = selectedStatus === "confirmado"
-        ? Number(adultos.value)
-        : 0;
-      const ninosValue = selectedStatus === "confirmado"
-        ? Number(ninos.value)
-        : 0;
-      const observacionesValue = observaciones.value.trim() || null;
-
-      if (!familia) {
-        formMessage.textContent = "Escribe el nombre de la familia.";
-        submitButton.disabled = false;
-        submitButton.style.opacity = "";
-        return;
-      }
-
-      if (
-        selectedStatus === "confirmado" &&
-        (adultosValue < 0 || adultosValue > 20 ||
-         ninosValue < 0 || ninosValue > 20)
-      ) {
-        formMessage.textContent = "Adultos y niños deben estar entre 0 y 20.";
-        submitButton.disabled = false;
-        submitButton.style.opacity = "";
-        return;
-      }
-
-      const { error } = await supabaseClient
-        .from("confirmaciones")
-        .insert({
-          familia: familia,
-          adultos: adultosValue,
-          ninos: ninosValue,
-          estado: selectedStatus,
-          observaciones: observacionesValue
-        });
-
-      if (error) {
-        console.error("Error al guardar:", error);
-        formMessage.textContent = "No pudimos guardar la respuesta. Inténtalo nuevamente.";
-        submitButton.disabled = false;
-        submitButton.style.opacity = "";
-        return;
-      }
-
-      form.hidden = true;
-      successMessage.hidden = false;
-
-      if (selectedStatus === "confirmado") {
-        successMessage.innerHTML =
-          "🦖 ¡Confirmación registrada!<br><br>" +
-          "Nos encantará contar con ustedes en la expedición.";
-      } else {
-        successMessage.innerHTML =
-          "Gracias por avisarnos.<br><br>" +
-          "Hemos registrado que no podrán acompañarnos.";
-      }
-
-      setTimeout(closeModal, 3500);
-    });
+    loadInvitation();
   </script>
 
 </body>
