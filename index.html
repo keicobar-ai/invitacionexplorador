@@ -230,16 +230,138 @@
       opacity:.92;
     }
 
-    /* Decorativo: usamos solo una parte de la lámina de letreros */
-    .decor-sign{
+
+
+
+    /* Datos del evento */
+    .event-card{
+      position:relative;
+      max-width:440px;
+      margin:24px auto 0;
+      padding:20px 18px;
+      border-radius:20px;
+      background:
+        linear-gradient(rgba(46,69,33,.88),rgba(31,49,24,.95)),
+        url("assets/roca.png") center/cover;
+      border:2px solid rgba(205,222,154,.48);
+      box-shadow:var(--shadow);
+    }
+
+    .event-card h2{
+      margin:0 0 14px;
+      font-family:"Lilita One",cursive;
+      font-size:clamp(26px,7vw,36px);
+      color:#f5dfb0;
+      text-shadow:0 3px 5px rgba(0,0,0,.7);
+    }
+
+    .event-grid{
+      display:grid;
+      gap:10px;
+      margin-bottom:16px;
+    }
+
+    .event-item{
+      margin:0;
+      font-size:clamp(16px,4.4vw,20px);
+      line-height:1.35;
+      color:#fff8e7;
+      text-shadow:0 2px 4px rgba(0,0,0,.65);
+    }
+
+    .event-item strong{
       display:block;
-      width:min(78%,390px);
-      margin:18px auto -8px;
-      opacity:.92;
-      filter:drop-shadow(0 8px 8px rgba(0,0,0,.35));
-      object-fit:cover;
-      object-position:left top;
-      height:135px;
+      font-family:"Lilita One",cursive;
+      font-size:1.08em;
+      color:#ead3a5;
+      letter-spacing:.4px;
+    }
+
+    .maps-button{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:9px;
+      text-decoration:none;
+      min-height:58px;
+      font-size:clamp(20px,5.2vw,26px);
+    }
+
+    /* Sección de regalos que aparece tras responder */
+    .gift-section{
+      position:relative;
+      min-height:820px;
+      display:none;
+      align-items:flex-end;
+      padding:52px 22px 42px;
+      overflow:hidden;
+      background:
+        linear-gradient(to bottom,rgba(15,25,12,.16) 0%,rgba(15,25,12,.34) 42%,rgba(20,21,12,.88) 74%,rgba(20,21,12,.97) 100%),
+        url("confirma.png") center 30%/cover no-repeat;
+    }
+
+    .gift-section.visible{
+      display:flex;
+      animation:giftReveal .75s ease both;
+    }
+
+    @keyframes giftReveal{
+      from{opacity:0;transform:translateY(24px)}
+      to{opacity:1;transform:translateY(0)}
+    }
+
+    .gift-card{
+      position:relative;
+      z-index:1;
+      width:100%;
+      max-width:460px;
+      margin:0 auto;
+      padding:23px 20px;
+      border-radius:22px;
+      text-align:left;
+      background:
+        linear-gradient(rgba(64,42,24,.88),rgba(43,29,18,.95)),
+        url("assets/roca.png") center/cover;
+      border:2px solid rgba(241,211,159,.55);
+      box-shadow:var(--shadow);
+      backdrop-filter:blur(2px);
+    }
+
+    .gift-card h2{
+      margin:0 0 12px;
+      text-align:center;
+      font-family:"Lilita One",cursive;
+      font-size:clamp(29px,7.5vw,40px);
+      line-height:1.05;
+      color:#f5dfb0;
+      text-shadow:0 3px 5px #1c170d;
+    }
+
+    .gift-card .gift-intro{
+      margin:0 0 18px;
+      text-align:center;
+      font-size:clamp(16px,4.3vw,19px);
+      line-height:1.45;
+      color:#fff8e7;
+    }
+
+    .gift-card h3{
+      margin:0 0 10px;
+      font-family:"Lilita One",cursive;
+      font-size:25px;
+      color:#ead3a5;
+    }
+
+    .gift-list{
+      margin:0;
+      padding-left:22px;
+      color:#fff8e7;
+      font-size:16px;
+      line-height:1.5;
+    }
+
+    .gift-list li{
+      margin:7px 0;
     }
 
     .footer-space{
@@ -282,13 +404,13 @@
     <section class="content">
 
       <div class="family-card">
-        <p class="family-label">Invitación especial para</p>
+        <p class="family-label">Confirmación de asistencia</p>
         <h2 id="familyName" class="family-name">FAMILIA PÉREZ</h2>
       </div>
 
       <div class="intro">
-        <h2>¿Nos acompañan en esta aventura?</h2>
-        <p>Nos encantará contar con ustedes en este día tan especial.</p>
+        <p>Para nosotros será un placer poder contar con su presencia.<br>
+        Es por ello que anhelamos conocer si nos podrán acompañar en este día tan especial.</p>
       </div>
 
       <div class="actions">
@@ -297,6 +419,22 @@
       </div>
       <p id="guestCount" class="guest-count"></p>
       <p class="hint">Tu invitación es personal. Selecciona la cantidad de pases que asistirán.</p>
+      <section class="event-card" aria-label="Datos del evento">
+        <h2>DATOS DE LA EXPEDICIÓN</h2>
+        <div class="event-grid">
+          <p class="event-item"><strong>FECHA</strong>23 de agosto</p>
+          <p class="event-item"><strong>HORA</strong>2:30 PM</p>
+          <p class="event-item"><strong>LUGAR</strong>Salón de Eventos Real Sartor</p>
+        </div>
+        <a class="stone-button confirm maps-button"
+           href="https://maps.app.goo.gl/X9hW3tfsgHBJB29u7?g_st=aw"
+           target="_blank"
+           rel="noopener noreferrer"
+           aria-label="Abrir ubicación del Salón de Eventos Real Sartor en Google Maps">
+          📍 VER UBICACIÓN EN MAPS
+        </a>
+      </section>
+
 
       <div id="confirmationModal" class="modal" aria-hidden="true">
         <div class="modal-card">
@@ -315,10 +453,29 @@
         </div>
       </div>
 
-      <img class="decor-sign" src="assets/letreros.png" alt="" aria-hidden="true">
 
       <div class="footer-space"></div>
     </section>
+
+    <section id="giftSection" class="gift-section" aria-hidden="true">
+      <div class="gift-card">
+        <h2>EL MEJOR REGALO ES TU PRESENCIA</h2>
+        <p class="gift-intro">
+          Sin embargo, si deseas darle un presente a Santie,
+          compartimos algunas ideas 💡
+        </p>
+
+        <h3>Le encantan:</h3>
+        <ul class="gift-list">
+          <li>Juguetes: carros, pistas de carros, dinosaurios, juguetes de películas y personajes como Toy Story, Spider-Man y Bluey, además de juegos para el aire libre.</li>
+          <li>Cuentos.</li>
+          <li>Ropa talla 8.</li>
+          <li>Zapatos talla 19: formal, tenis, botita, chanclas, etc.</li>
+          <li>Mochila, de preferencia de rueditas.</li>
+        </ul>
+      </div>
+    </section>
+
   </main>
   <script>
     const SUPABASE_URL = "https://jygvmmaqbgrinbvbbesz.supabase.co";
@@ -333,10 +490,22 @@
     const formMessage = document.getElementById("formMessage");
     const submitButton = document.getElementById("submitButton");
     const successMessage = document.getElementById("successMessage");
+    const giftSection = document.getElementById("giftSection");
     let invitacion = null;
 
     function token() { return new URLSearchParams(location.search).get("i"); }
     function closeModal() { modal.classList.remove("open"); modal.setAttribute("aria-hidden","true"); }
+
+    function revealGiftSection() {
+      giftSection.classList.add("visible");
+      giftSection.setAttribute("aria-hidden","false");
+      setTimeout(() => giftSection.scrollIntoView({behavior:"smooth", block:"start"}), 120);
+    }
+
+    function closeModalAndReveal() {
+      closeModal();
+      revealGiftSection();
+    }
 
     function fillPassOptions(max) {
       passesSelect.innerHTML = "";
@@ -383,7 +552,7 @@
       if(error){ console.error(error); formMessage.textContent="No pudimos registrar la respuesta."; form.hidden=false; successMessage.hidden=true; modal.classList.add("open"); return; }
       form.hidden=true; successMessage.hidden=false; successMessage.innerHTML="Gracias por avisarnos.<br><br>Hemos registrado que no podrán acompañarnos.";
       modal.classList.add("open"); modal.setAttribute("aria-hidden","false");
-      setTimeout(closeModal,4000);
+      setTimeout(closeModalAndReveal,4000);
     });
 
     form.addEventListener("submit",async e=>{
@@ -400,7 +569,7 @@
       }
       form.hidden=true; successMessage.hidden=false;
       successMessage.innerHTML=`🦖 ¡Confirmación registrada!<br><br>Asistirán: <strong>${pases} de ${invitacion.pases_asignados}</strong>.<br><br>¡Nos encantará contar con ustedes en la expedición!`;
-      setTimeout(closeModal,4000);
+      setTimeout(closeModalAndReveal,4000);
     });
     loadInvitation();
   </script>
