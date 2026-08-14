@@ -45,13 +45,9 @@ function renderFamilies(){const q=$("searchInput").value.trim().toLowerCase();co
   if(!inv)return;
   const url=inviteUrl(inv.token);
   const pases=Number(inv.pases_asignados||0);
-  const mensaje=`🦖 ¡${inv.familia}, están invitados a nuestra Expedición Jurásica!
+  const mensaje=`🦖 ¡${inv.familia}!
 
-Hemos preparado una invitación especial para ustedes.
-
-Su invitación incluye ${pases} ${pases===1?"pase":"pases"}.
-
-Confirmen su asistencia desde su invitación personalizada:
+Los invitamos a confirmar su asistencia desde su enlace personalizado:
 ${url}
 
 ¡Los esperamos! 🌿🦕`;
