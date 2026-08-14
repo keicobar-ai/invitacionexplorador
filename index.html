@@ -508,6 +508,19 @@
         </div>
       </div>
 
+      <div id="declineModal" class="modal" aria-hidden="true">
+        <div class="modal-card">
+          <h2>No podremos acompañarlos</h2>
+          <p>¿Confirmas que no podrán acompañarnos en este día especial?</p>
+          <div id="declineActions" class="modal-actions">
+            <button id="declineCancelButton" class="stone-button decline" type="button">CANCELAR</button>
+            <button id="declineConfirmButton" class="stone-button confirm" type="button">SÍ, CONFIRMAR</button>
+          </div>
+          <div id="declineMessage" class="form-message" role="status" aria-live="polite"></div>
+          <div id="declineSuccessMessage" class="success-message" hidden></div>
+        </div>
+      </div>
+
 
       <div class="footer-space"></div>
     </section>
@@ -516,7 +529,7 @@
       <div class="gift-card">
         <h2>EL MEJOR REGALO ES TU PRESENCIA</h2>
         <p class="gift-intro">
-          Sin embargo, si deseas darle un presente a Santie,
+          Sin embargo, si deseas darle un presente a Santi,
           compartimos algunas ideas 💡
         </p>
 
@@ -554,12 +567,21 @@
     const formMessage = document.getElementById("formMessage");
     const submitButton = document.getElementById("submitButton");
     const successMessage = document.getElementById("successMessage");
+
+    const declineModal = document.getElementById("declineModal");
+    const declineActions = document.getElementById("declineActions");
+    const declineCancelButton = document.getElementById("declineCancelButton");
+    const declineConfirmButton = document.getElementById("declineConfirmButton");
+    const declineMessage = document.getElementById("declineMessage");
+    const declineSuccessMessage = document.getElementById("declineSuccessMessage");
+
     const giftSection = document.getElementById("giftSection");
     const responseStatus = document.getElementById("responseStatus");
     let invitacion = null;
 
     function token() { return new URLSearchParams(location.search).get("i"); }
     function closeModal() { modal.classList.remove("open"); modal.setAttribute("aria-hidden","true"); }
+    function closeDeclineModal() { declineModal.classList.remove("open"); declineModal.setAttribute("aria-hidden","true"); }
 
     function revealGiftSection() {
       giftSection.classList.add("visible");
@@ -569,6 +591,11 @@
 
     function closeModalAndReveal() {
       closeModal();
+      revealGiftSection();
+    }
+
+    function closeDeclineModalAndReveal() {
+      closeDeclineModal();
       revealGiftSection();
     }
 
@@ -643,21 +670,51 @@
     cancelButton.addEventListener("click",closeModal);
     modal.addEventListener("click",e=>{if(e.target===modal)closeModal();});
 
-    declineButton.addEventListener("click",async()=>{
+    declineButton.addEventListener("click",()=>{
       if(!invitacion)return;
-      declineButton.disabled=true;
+      declineMessage.textContent="";
+      declineSuccessMessage.hidden=true;
+      declineActions.hidden=false;
+      declineConfirmButton.disabled=false;
+      declineConfirmButton.style.opacity="";
+      declineModal.classList.add("open");
+      declineModal.setAttribute("aria-hidden","false");
+    });
+
+    declineCancelButton.addEventListener("click",closeDeclineModal);
+    declineModal.addEventListener("click",e=>{if(e.target===declineModal)closeDeclineModal();});
+
+    declineConfirmButton.addEventListener("click",async()=>{
+      if(!invitacion)return;
+
+      declineConfirmButton.disabled=true;
+      declineConfirmButton.style.opacity=".65";
+      declineMessage.textContent="";
+
       const {error}=await supabaseClient.from("confirmaciones").insert({
         invitacion_id:invitacion.id,pases_confirmados:0,estado:"no_asistira"
       });
-      declineButton.disabled=false;
-      if(error){ console.error(error); formMessage.textContent="No pudimos registrar la respuesta."; form.hidden=false; successMessage.hidden=true; modal.classList.add("open"); return; }
-      form.hidden=true; successMessage.hidden=false; successMessage.innerHTML="Gracias por avisarnos.<br><br>Hemos registrado que no podrán acompañarnos.";
+
+      if(error){
+        console.error(error);
+        declineMessage.textContent="No pudimos registrar la respuesta. Inténtalo nuevamente.";
+        declineConfirmButton.disabled=false;
+        declineConfirmButton.style.opacity="";
+        return;
+      }
+
+      declineActions.hidden=true;
+      declineSuccessMessage.hidden=false;
+      declineSuccessMessage.innerHTML="Gracias por avisarnos.<br><br>Hemos registrado que no podrán acompañarnos.";
+
       responseStatus.textContent="Respuesta registrada: no podrán acompañarnos.";
       responseStatus.classList.add("visible");
-      confirmButton.disabled=true; declineButton.disabled=true;
-      confirmButton.style.opacity=".58"; declineButton.style.opacity=".58";
-      modal.classList.add("open"); modal.setAttribute("aria-hidden","false");
-      setTimeout(closeModalAndReveal,4000);
+      confirmButton.disabled=true;
+      declineButton.disabled=true;
+      confirmButton.style.opacity=".58";
+      declineButton.style.opacity=".58";
+
+      setTimeout(closeDeclineModalAndReveal,4000);
     });
 
     form.addEventListener("submit",async e=>{
